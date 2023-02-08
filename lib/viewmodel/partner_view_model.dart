@@ -12,13 +12,13 @@ import 'package:path_provider/path_provider.dart';
 
 class PartnerViewModel extends ChangeNotifier {
   File? _imageprofile;
-  late Product _productsAction;
+  Product? _productsAction;
   ModelError? _modelError;
   String _productTitle = "";
 
   String get productTitle => _productTitle;
   File? get imageprofile => _imageprofile;
-  Product get productsAction => _productsAction;
+  Product? get productsAction => _productsAction;
   ModelError? get modelError => _modelError;
 
   setProductTitle(String value) {

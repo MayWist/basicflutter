@@ -74,7 +74,10 @@ class _PartnerProfileState extends State<PartnerProfile> {
                   partnerViewModel.deleteProductsId(productId.text);
                   showDialog(
                       context: context,
-                      builder: (context) => dialog(context, partnerViewModel));
+                      builder: (context) => dialog(
+                          context,
+                          partnerViewModel.productTitle,
+                          partnerViewModel.productsAction!));
                 },
                 icon: const Icon(
                   Icons.delete,
@@ -97,7 +100,10 @@ class _PartnerProfileState extends State<PartnerProfile> {
 
                   showDialog(
                       context: context,
-                      builder: (context) => dialog(context, partnerViewModel));
+                      builder: (context) => dialog(
+                          context,
+                          partnerViewModel.productTitle,
+                          partnerViewModel.productsAction!));
                 },
                 icon: const Icon(
                   Icons.add,
@@ -128,7 +134,10 @@ class _PartnerProfileState extends State<PartnerProfile> {
 
                   showDialog(
                       context: context,
-                      builder: (context) => dialog(context, partnerViewModel));
+                      builder: (context) => dialog(
+                          context,
+                          partnerViewModel.productTitle,
+                          partnerViewModel.productsAction!));
                 },
                 icon: const Icon(
                   Icons.update,
@@ -142,10 +151,9 @@ class _PartnerProfileState extends State<PartnerProfile> {
   }
 }
 
-dialog(context, PartnerViewModel partnerViewModel) {
-  Product product = partnerViewModel.productsAction;
+dialog(context, String title, Product product) {
   return AlertDialog(
-    title: Text(partnerViewModel.productTitle),
+    title: Text(title),
     content: bindingUi(product),
     actions: [
       TextButton(
@@ -158,12 +166,13 @@ dialog(context, PartnerViewModel partnerViewModel) {
 }
 
 bindingUi(Product product) {
-  Text idItem = Text("${product.id}");
+  Text idItem = Text("ID : ${product.id}");
   Text titleItem = Text(product.title);
-  // Text priceItem = Text("${product.price} \$");
+  Text priceItem = Text("${product.price} \$");
   Text brandItem = Text(product.brand);
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
-    children: [idItem, titleItem, brandItem],
+    mainAxisSize: MainAxisSize.min,
+    children: [idItem, titleItem, priceItem, brandItem],
   );
 }
