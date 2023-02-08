@@ -71,13 +71,10 @@ class _PartnerProfileState extends State<PartnerProfile> {
               ),
               OutlinedButton.icon(
                 onPressed: () async {
-                  partnerViewModel.deleteProductsId(productId.text);
+                  await partnerViewModel.deleteProductsId(productId.text);
                   showDialog(
                       context: context,
-                      builder: (context) => dialog(
-                          context,
-                          partnerViewModel.productTitle,
-                          partnerViewModel.productsAction!));
+                      builder: (context) => dialog(context, partnerViewModel));
                 },
                 icon: const Icon(
                   Icons.delete,
@@ -96,14 +93,11 @@ class _PartnerProfileState extends State<PartnerProfile> {
               ),
               OutlinedButton.icon(
                 onPressed: () async {
-                  partnerViewModel.addProductForm(productnameadd.text);
+                  await partnerViewModel.addProductForm(productnameadd.text);
 
                   showDialog(
                       context: context,
-                      builder: (context) => dialog(
-                          context,
-                          partnerViewModel.productTitle,
-                          partnerViewModel.productsAction!));
+                      builder: (context) => dialog(context, partnerViewModel));
                 },
                 icon: const Icon(
                   Icons.add,
@@ -129,15 +123,11 @@ class _PartnerProfileState extends State<PartnerProfile> {
               ),
               OutlinedButton.icon(
                 onPressed: () async {
-                  partnerViewModel.updateProductId(
+                  await partnerViewModel.updateProductId(
                       productnameupdate.text, productprice.text);
-
                   showDialog(
                       context: context,
-                      builder: (context) => dialog(
-                          context,
-                          partnerViewModel.productTitle,
-                          partnerViewModel.productsAction!));
+                      builder: (context) => dialog(context, partnerViewModel));
                 },
                 icon: const Icon(
                   Icons.update,
@@ -151,28 +141,39 @@ class _PartnerProfileState extends State<PartnerProfile> {
   }
 }
 
-dialog(context, String title, Product product) {
-  return AlertDialog(
-    title: Text(title),
-    content: bindingUi(product),
-    actions: [
-      TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text("Back"))
-    ],
-  );
-}
-
-bindingUi(Product product) {
-  Text idItem = Text("ID : ${product.id}");
-  Text titleItem = Text(product.title);
-  Text priceItem = Text("${product.price} \$");
-  Text brandItem = Text(product.brand);
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    mainAxisSize: MainAxisSize.min,
-    children: [idItem, titleItem, priceItem, brandItem],
-  );
+Widget dialog(context, PartnerViewModel partnerViewModel) {
+  if (partnerViewModel.productsAction != null) {
+    Product product = partnerViewModel.productsAction!;
+    Text idItem = Text("ID : ${product.id}");
+    Text titleItem = Text(product.title);
+    Text priceItem = Text("${product.price} \$");
+    Text brandItem = Text(product.brand);
+    return AlertDialog(
+      title: Text(partnerViewModel.productTitle),
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [idItem, titleItem, priceItem, brandItem],
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Back"))
+      ],
+    );
+  } else {
+    return AlertDialog(
+      title: Text(partnerViewModel.productTitle),
+      content: const Center(child: Text("ERROR")),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Back"))
+      ],
+    );
+  }
 }

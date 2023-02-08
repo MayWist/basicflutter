@@ -12,13 +12,15 @@ import 'package:path_provider/path_provider.dart';
 
 class PartnerViewModel extends ChangeNotifier {
   File? _imageprofile;
-  Product? _productsAction;
   ModelError? _modelError;
+
+  Product? _productsAction;
   String _productTitle = "";
 
   String get productTitle => _productTitle;
-  File? get imageprofile => _imageprofile;
   Product? get productsAction => _productsAction;
+
+  File? get imageprofile => _imageprofile;
   ModelError? get modelError => _modelError;
 
   setProductTitle(String value) {
@@ -39,22 +41,17 @@ class PartnerViewModel extends ChangeNotifier {
 
   deleteProductsId(String id) async {
     var response = await ProductsServices.deleteProducts(id);
-    print("Delete Product");
-
     productActionApi(response, "Delete Product");
   }
 
   addProductForm(String title) async {
     var response = await ProductsServices.addProduct(title);
-    print("Add Product");
-
     productActionApi(response, "Add Product");
   }
 
   updateProductId(String title, String price) async {
     var response =
         await ProductsServices.updateProduct(title, int.parse(price));
-    print("Update Product");
     productActionApi(response, "Update Product");
   }
 
